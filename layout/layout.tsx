@@ -7,7 +7,7 @@ import {
   useMountEffect,
   useUnmountEffect,
 } from "primereact/hooks";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, Suspense } from "react";
 import { classNames } from "primereact/utils";
 import AppFooter from "./AppFooter";
 import AppSidebar from "./AppSidebar";
@@ -19,8 +19,8 @@ import { ChildContainerProps, LayoutState, AppTopbarRef } from "../types/types";
 import { usePathname, useSearchParams } from "next/navigation";
 import { CopilotPopup} from "@copilotkit/react-ui";
 
-
-const Layout = ({ children }: ChildContainerProps) => {
+// Create a separate component for the parts using useSearchParams
+const LayoutContent = ({ children }: ChildContainerProps) => {
   const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
   const { setRipple } = useContext(PrimeReactContext);
   const topbarRef = useRef<AppTopbarRef>(null);
@@ -155,19 +155,19 @@ const Layout = ({ children }: ChildContainerProps) => {
           <div className="layout-main">{children}</div>
           <AppFooter />
         </div>
-        {/* <div>
-          <CopilotPopup
-                  instructions={"You are assisting the user as best as you can. Answer in the best way possible given the data you have."}
-                  labels={{
-                  title: "ALAN 1.0",
-                  initial: "Halo adakah yang bisa saya bantu?",
-                  }}
-              />
-        </div> */}
         <AppConfig />
         <div className="layout-mask"></div>
       </div>
     </React.Fragment>
+  );
+};
+
+// Main Layout component
+const Layout = ({ children }: ChildContainerProps) => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LayoutContent children={children} />
+    </Suspense>
   );
 };
 
