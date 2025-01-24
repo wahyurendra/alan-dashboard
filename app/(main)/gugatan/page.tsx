@@ -7,10 +7,10 @@ import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 const GugatanContent = () => {
     const docs = [
         {
-            uri: "https://calibre-ebook.com/downloads/demos/demo.docx",
-            // uri:"doc1.docx",
+            // uri: "https://calibre-ebook.com/downloads/demos/demo.docx",
+            uri:"/doc1.docx",
             filetype: "docx",
-            fileName: "demo.docx"
+            fileName: "doc1.docx"
         }
     ];
 
